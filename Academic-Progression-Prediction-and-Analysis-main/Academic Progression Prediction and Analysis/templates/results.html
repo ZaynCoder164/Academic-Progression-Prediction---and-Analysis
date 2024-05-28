@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Results</title>
+    <!-- Add your CSS stylesheets and other meta tags if needed -->
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@200&display=swap');
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Lexend;
+            background-color: #004266;
+            background-blend-mode: multiply;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        h1 {
+            color: cornsilk;
+            text-align: center;
+        }
+
+        .result-container {
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.6);
+            width: auto;
+            height:inherit;
+            padding: 20px;
+            margin-left: auto;
+            margin-bottom: 20px;
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
+            text-align:left;
+        }
+
+        p {
+            margin: 10px 0;
+        }
+
+        .graph-button {
+            background-color: #d61741;
+            border: none;
+            color: cornsilk;
+            padding: 12px 10px;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+            margin: 0 auto;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: font-size 0.3s, color 0.3s;
+        }
+
+        .graph-button:hover {
+            box-shadow: 0 0 10px 5px #c51080;
+            background-color: #b61249;
+            font-size: 19px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Results</h1>
+    <div class="result-container">
+        <p><span style="background-color: #004266; font-size:20px; color:cornsilk;">USN: 1AM19CS{{ student_usn }}</span></p>
+        <p><span style="background-color: #004266; font-size:20px; color:cornsilk;">Name: {{ student_name }}</span></p>
+        <p>Semester 1: {{ sem1 }}</p>
+        <p>Semester 2: {{ sem2 }}</p>
+        <p>Semester 3: {{ sem3 }}</p>
+        <p>Semester 4: {{ sem4 }}</p>
+        <p>Semester 5: {{ sem5 }}</p>
+        <p>6th sem predicted marks: {{predicted_marks}}</p>
+        <p>R2_train: {{r2_train}}</p>
+        <p>R2_test: {{r2_test}}</p>
+        <p>MAE: {{mae}}</p>
+        <p>RMSE:{{rmse}}</p>
+        <p>Percentage Change: {{ percentage_change }}           <span style="color:crimson; font-weight:bold;">*NOTE: Hence, shows the improvement of student comparing from all sem marks*</span></p>  
+    </div>
+
+    <button class="graph-button" onclick="showGraph()">Show Graph</button>
+
+    <!-- Script for pop-up graph -->
+    <script>
+        function showGraph() {
+            // Create a new window to display the graph
+            var graphWindow = window.open('', '', 'width=800,height=600');
+
+            // Get the URL for the graph image
+            var graphURL = "{{ url_for('static', filename=graph_filename) }}";
+
+            // Generate the HTML for the graph image
+            var graphHTML = '<html><head><title>Scatter Plot</title></head><body>';
+            graphHTML += '<img src="' + graphURL + '" alt="Scatter Plot">';
+            graphHTML += '</body></html>';
+
+            // Display the graph image in the new window
+            graphWindow.document.write(graphHTML);
+        }
+    </script>
+
+</body>
+</html>

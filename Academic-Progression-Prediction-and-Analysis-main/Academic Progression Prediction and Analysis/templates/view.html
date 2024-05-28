@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Information</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@200&display=swap');
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Lexend;
+            background-color: #004266;
+            background-blend-mode: multiply;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        h1 {
+            color: cornsilk;
+            text-align: center;
+        }
+
+        .result-container {
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.6);
+            width: auto;
+            height:inherit;
+            padding: 20px;
+            margin-left: auto;
+            margin-bottom: 20px;
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
+            text-align:left;
+        }
+
+        p {
+            margin: 10px 0;
+        }
+
+        .graph-button {
+            background-color: #d61741;
+            border: none;
+            color: cornsilk;
+            padding: 12px 10px;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+            margin: 0 auto;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: font-size 0.3s, color 0.3s;
+        }
+
+        .graph-button:hover {
+            box-shadow: 0 0 10px 5px #c51080;
+            background-color: #b61249;
+            font-size: 19px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Student Info</h1>
+    <div class="result-container">
+        <p>USN:1AM19CS{{ student.USN }}</p>
+        <p style="line-height: 0%;">Name:{{ student.Name }}</p>
+        <br>
+        <p>Semester 1: {{ student['First sem'] }}</p>
+        <p>Semester 2: {{ student['Second sem'] }}</p>
+        <p>Semester 3: {{ student['Third sem'] }}</p>
+        <p>Semester 4: {{ student['Fourth sem'] }}</p>
+        <p>Semester 5: {{ student['Fifth sem'] }}</p>
+    </div>  
+</body>
+</html>

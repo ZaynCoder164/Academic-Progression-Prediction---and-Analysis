@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academic Progression</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="static/css/dash.css">
+
+
+<style>
+      table {
+        width: 100%;
+      }
+
+      @media only screen and (max-width: 768px) {
+        table {
+          width: 100%;
+        }
+      }
+
+    </style>
+
+<script>
+    function toggleMenu() {
+        var menuBar = document.getElementById('menuBar');
+        menuBar.classList.toggle('active');
+    }
+</script>
+</head>
+<body>
+  <script>
+    const textarea = document.getElementById('sticky-note');
+    textarea.addEventListener('input', function() {
+      // Get the first line of the textarea
+      const firstLine = this.value.substr(0, this.value.indexOf('\n'));
+      // Set the textarea value to the first line plus the user input
+      this.value = `${firstLine}\n${this.value.substr(this.value.indexOf('\n') + 1)}`;
+    });
+  </script>
+
+    <nav id="menuBar">
+        <ul>
+            <li>
+                <a href="javascript:toggleMenu()">
+                    <img src="static/images/logo.png" width="20px" height="20px" class="logo-menu" >
+                    <span id="menu">Menu</span>
+                </a>
+            </li>
+            <li>
+                <a href="/dashboard">
+                    <img src="/static/images/dash.svg" alt="Dashboard Icon">
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="/students">
+                    <img src="/static/images/students.svg" alt="Students Icon">
+                    <span>Students</span>
+                </a>
+            </li>
+            <li>
+                <a href="/predictor">
+                    <img src="/static/images/predict.svg" alt="Predict Icon">
+                    <span>Predictor</span>
+                </a>
+            </li>
+             <li class="profile">
+                  <div class="circle">
+                    <div class="profile-image"></div>
+                  </div>
+                </li>
+              <li class="profile-name">
+                    <div class="profile-n"></div>
+                  <span>{{ session['email'] }}</span>
+                </li>
+                <br><br><br>
+                <br>
+                <br><br><br><br><br><br><br>
+                <br><br><br><br><br><br><br><br>
+               <li class="navbar-divider"></li>
+           <li class="logout" style="margin-top: auto;">
+            <a href="/logout">
+              <div class="logout-icon">
+                <img src="/static/images/logout.svg" alt="Logout Icon">
+              </div>
+              <span class="logout-text">Logout</span>
+            </a>
+          </li>
+
+
+        </ul>
+    </nav>
+    <div style="margin-left:15%;padding:20px 16px;height:1000px;">
+    <br>
+    <h1>Notes</h1>
+<br>
+<div class="container">
+  <div class="outer-box">
+    <div class="inner-box">
+      <textarea id="note1" class="sticky-note" oninput="saveNote(1)">To Do List</textarea>
+    </div>
+    <div class="inner-box">
+      <textarea id="note2" class="sticky-note" oninput="saveNote(2)">To Do List</textarea>
+    </div>
+    <div class="inner-box">
+      <textarea id="note3" class="sticky-note" oninput="saveNote(3)">To Do List</textarea>
+    </div>
+    <div class="inner-box">
+      <textarea id="note4" class="sticky-note" oninput="saveNote(4)">To Do List</textarea>
+    </div>
+  </div>
+</div>
+
+<br>
+<br>
+<div class="container-2" style="width: auto; margin: 0 auto; ; padding: 20px; background-color: white;border-radius: 10px;">
+  <h1>Starred Students</h1>
+  <table class="table" id="1" style=" margin-left: auto; margin-right: auto; border-radius: 20px">
+    <thead>
+      <tr>
+        <th id="first-th">Name</th>
+        <th>USN</th>
+        <th>Class</th>
+        <th>Info</th>
+        <th id="last-th-main">Update Marks</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for student in students %}
+      <tr>
+        <td>{{ student.Name }}</td>
+        <td>1AM19CS{{ student.USN }}</td>
+        <td>6th Sem</td>
+        <td>
+          <a href="/view/{{ student['USN'] }}" class="btn btn-primary my-btn" style="display: inline-block; padding: 5px 10px; border: 1px solid #36B5EB; border-radius: 5px; background-color: #36B5EB; color: white; text-decoration: none;">View</a>
+        </td>
+        <td>
+          <button class="btn btn-primary my-btn" onclick="toggleMarksBox('{{ student.USN }}')" style="display: inline-block; padding: 5px 10px; border: 1px solid #36B5EB; border-radius: 5px; background-color: #36B5EB; color: white; text-decoration: none; position:relative; right:25%;">Update</button>
+        </td>
+      </tr>
+      <div class="marks-content" id="marksBox_{{ student.USN }}" >
+        <div class="close-button" onclick="closeMarksBox('{{ student.USN }}')">Close</div>
+        <h2>Marks Details</h2>
+        <form id="marks-form" method="POST" action="/update-marks" enctype="multipart/form-data">
+          <label for="usn">USN:</label>
+          <input type="text" id="usn" name="usn" required><br><br>
+          <label for="sem1">Semester 1:</label>
+          <input type="text" id="sem1" name="sem1" required><br><br>
+          <label for="sem2">Semester 2:</label>
+          <input type="text" id="sem2" name="sem2" required><br><br>
+          <label for="sem3">Semester 3:</label>
+          <input type="text" id="sem3" name="sem3" required><br><br>
+          <label for="sem4">Semester 4:</label>
+          <input type="text" id="sem4" name="sem4" required><br><br>
+          <label for="sem5">Semester 5:</label>
+          <input type="text" id="sem5" name="sem5" required><br><br>
+          <button type="submit">Submit</button>
+        </form>
+      </div>
+      {% endfor %}
+      </tbody>
+      </table>
+      </div>
+      
+      
+
+
+    </div>
+    <style>
+      .marks-container {
+          display: none;
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          backdrop-filter: blur(5px);
+          z-index: 9999;
+      }
+  
+      .marks-content {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 300px;
+          padding: 20px;
+          background-color: #fff;
+          border-radius: 10px;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+          text-align: center;
+      }
+  
+      .student-box {
+          cursor: pointer;
+      }
+  
+      .close-button {
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          font-size: 12px;
+          padding: 6px 12px;
+          background-color: #f44336;
+          color: white;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+      }
+  
+      .mark {
+          margin-bottom: 10px;
+      }
+  </style>
+    
+    <script>
+      function toggleMarksBox1(usn) {
+          const marksContainer = document.getElementById(usn);
+  
+          // Show the clicked marks container
+          marksContainer.style.display = 'block';
+      }
+  
+      function closeMarksBox(usn) {
+          const marksContainer = document.getElementById(usn);
+          marksContainer.style.display = 'none';
+      }
+  </script>
+  
+<script>
+  function toggleMarksBox(usn) {
+  const marksBox = document.getElementById(`marksBox_${usn}`);
+  marksBox.classList.toggle('show');
+}
+
+function closeMarksBox(usn) {
+  const marksBox = document.getElementById(`marksBox_${usn}`);
+  marksBox.classList.remove('show');
+}
+
+</script>
+<script>
+  
+  function saveNote(noteId) {
+  var noteContent = document.getElementById('note' + noteId).value;
+
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', '/save-note', true);
+  xhr.setRequestHeader('Content-Type', 'application/json');
+
+  var data = JSON.stringify({
+    noteId: noteId,
+    content: noteContent
+  });
+
+  xhr.send(data);
+}
+
+
+
+</script>
+    </body>
+</html>
